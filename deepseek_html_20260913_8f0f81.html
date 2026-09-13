@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LUMEN · 创意工作室</title>
+<meta name="description" content="LUMEN 是一支专注于品牌视觉、网站与交互体验的小型创意团队。" />
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --bg:#08090f;
+    --surface:rgba(255,255,255,.045);
+    --surface-2:rgba(255,255,255,.08);
+    --border:rgba(255,255,255,.09);
+    --border-2:rgba(255,255,255,.22);
+    --text:#eef1f8;
+    --muted:#98a1b6;
+    --p1:#6d5efc;
+    --p2:#22d3ee;
+    --p3:#f472b6;
+    --radius:20px;
+    --ease:cubic-bezier(.2,.7,.3,1);
+  }
+
+  html{
+    background:var(--bg);
+    scroll-behavior:smooth;
+    -webkit-text-size-adjust:100%;
+  }
+
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    color:var(--text);
+    line-height:1.65;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+  ::selection{background:rgba(109,94,252,.45);color:#fff}
+
+  .wrap{width:min(1140px,90vw);margin-inline:auto}
+
+  /* ---------- 背景光晕 ---------- */
+  .aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+  .blob{position:absolute;border-radius:50%;filter:blur(110px);opacity:.42;will-change:transform}
+  .b1{width:min(560px,72vw);aspect-ratio:1;background:#5b4bf0;top:-14%;left:-12%;animation:drift1 20s ease-in-out infinite}
+  .b2{width:min(500px,66vw);aspect-ratio:1;background:#0e9bb7;top:16%;right:-16%;animation:drift2 26s ease-in-out infinite}
+  .b3{width:min(460px,60vw);aspect-ratio:1;background:#b62ba0;bottom:-20%;left:32%;opacity:.26;animation:drift3 32s ease-in-out infinite}
+
+  @keyframes drift1{50%{transform:translate(120px,90px) scale(1.15)}}
+  @keyframes drift2{50%{transform:translate(-110px,130px) scale(1.1)}}
+  @keyframes drift3{50%{transform:translate(90px,-110px) scale(1.2)}}
+
+  /* 顶部网格纹理 */
+  body::before{
+    content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 85% 55% at 50% 0%,#000 15%,transparent 78%);
+    mask-image:radial-gradient(ellipse 85% 55% at 50% 0%,#000 15%,transparent 78%);
+  }
+
+  /* ---------- 导航 ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    padding:20px 0;
+    border-bottom:1px solid transparent;
+    transition:padding .35s var(--ease),background .35s var(--ease),
+               border-color .35s var(--ease),backdrop-filter .35s var(--ease);
+  }
+  header.scrolled{
+    padding:12px 0;
+    background:rgba(8,9,15,.72);
+    -webkit-backdrop-filter:blur(16px) saturate(140%);
+    backdrop-filter:blur(16px) saturate(140%);
+    border-bottom-color:var(--border);
+  }
+
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:24px}
+
+  .logo{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.16em;font-size:.95rem}
+  .logo .dot{
+    width:10px;height:10px;border-radius:50%;
+    background:linear-gradient(135deg,var(--p1),var(--p2));
+    box-shadow:0 0 16px rgba(109,94,252,.9);
+  }
+
+  nav.links{display:flex;gap:30px;font-size:.92rem;color:var(--muted)}
+  nav.links a{position:relative;transition:color .25s}
+  nav.links a:hover{color:var(--text)}
+  nav.links a::after{
+    content:'';position:absolute;left:0;bottom:-6px;height:1px;width:0;
+    background:currentColor;transition:width .3s var(--ease);
+  }
+  nav.links a:hover::after{width:100%}
+
+  /* ---------- 按钮 ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 26px;border-radius:999px;
+    font-size:.95rem;font-weight:600;white-space:nowrap;
+    border:1px solid transparent;cursor:pointer;
+    transition:transform .28s var(--ease),box-shadow .28s var(--ease),
+               background .28s var(--ease),border-color .28s var(--ease);
+  }
+  .btn-primary{
+    background:linear-gradient(100deg,#6d5efc,#0ea5b7);
+    color:#fff;
+    box-shadow:0 8px 24px -12px rgba(109,94,252,.9);
+  }
+  .btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 38px -12px rgba(109,94,252,.95);
+  }
+  .btn-ghost{
+    background:var(--surface);border-color:var(--border);color:var(--text);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  }
+  .btn-ghost:hover{background:var(--surface-2);border-color:var(--border-2);transform:translateY(-2px)}
+  .btn-sm{padding:9px 19px;font-size:.86rem}
+
+  /* ---------- 通用区块 ---------- */
+  section{padding:90px 0}
+  .sec-head{max-width:640px;margin:0 auto 54px;text-align:center}
+  .eyebrow{
+    display:inline-block;margin-bottom:14px;
+    font-size:.76rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;
+    color:#8fa0ff;
+  }
+  .sec-head h2{
+    font-size:clamp(1.7rem,4vw,2.6rem);
+    line-height:1.2;letter-spacing:-.02em;font-weight:800;
+  }
+  .sec-head p{color:var(--muted);margin-top:14px}
+
+  .grid{display:grid;gap:18px}
+  .grid-3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .grid-4{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100vh;
+    min-height:100svh;
+    display:flex;align-items:center;
+    padding:150px 0 90px;
+    text-align:center;
+  }
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:7px 16px;border-radius:999px;margin-bottom:28px;
+    background:var(--surface);border:1px solid var(--border);
+    font-size:.82rem;color:var(--muted);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  }
+  .hero h1{
+    font-size:clamp(2.4rem,7.2vw,5rem);
+    line-height:1.08;letter-spacing:-.02em;font-weight:800;
+  }
+  .grad{
+    background:linear-gradient(100deg,var(--p1),var(--p2),var(--p3),var(--p1));
+    background-size:250% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;
+    animation:shine 9s linear infinite;
+  }
+  @keyframes shine{to{background-position:250% 0}}
+
+  .lead{
+    max-width:620px;margin:24px auto 0;
+    font-size:clamp(1rem,2vw,1.14rem);color:var(--muted);
+  }
+  .cta-row{
+    display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    margin-top:40px;
+  }
+
+  /* ---------- 数据 ---------- */
+  .stats{padding:20px 0 90px}
+  .stat{
+    text-align:center;padding:28px 16px;
+    border:1px solid var(--border);border-radius:var(--radius);
+    background:var(--surface);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    transition:border-color .35s var(--ease),transform .35s var(--ease);
+  }
+  .stat:hover{border-color:var(--border-2);transform:translateY(-3px)}
+  .stat .num{
+    font-size:clamp(1.9rem,4.5vw,2.8rem);
+    font-weight:800;letter-spacing:-.02em;line-height:1.1;
+    background:linear-gradient(120deg,#ffffff,#9fb4ff);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .stat .label{font-size:.86rem;color:var(--muted);margin-top:6px}
+
+  /* ---------- 卡片 ---------- */
+  .card{
+    position:relative;overflow:hidden;
+    padding:30px 28px;
+    border:1px solid var(--border);border-radius:var(--radius);
+    background:var(--surface);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    transition:transform .4s var(--ease),border-color .4s var(--ease),background .4s var(--ease);
+  }
+  .card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3));
+    transform:scaleX(0);transform-origin:left;
+    transition:transform .5s var(--ease);
+  }
+  .card:hover{transform:translateY(-6px);border-color:var(--border-2);background:var(--surface-2)}
+  .card:hover::before{transform:scaleX(1)}
+
+  .icon{
+    width:46px;height:46px;border-radius:14px;margin-bottom:20px;
+    display:grid;place-items:center;
+    background:linear-gradient(135deg,rgba(109,94,252,.38),rgba(34,211,238,.16));
+    border:1px solid var(--border);
+    color:#c7d2fe;
+  }
+  .icon svg{width:22px;height:22px}
+
+  .card h3{font-size:1.15rem;font-weight:700;margin-bottom:10px}
+  .card p{color:var(--muted);font-size:.94rem}
+
+  /* ---------- 作品 ---------- */
+  .works{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .work{
+    display:block;padding:14px;
+    border:1px solid var(--border);border-radius:var(--radius);
+    background:var(--surface);
+    transition:transform .4s var(--ease),border-color .4s var(--ease),background .4s var(--ease);
+  }
+  .work:hover{transform:translateY(-6px);border-color:var(--border-2);background:var(--surface-2)}
+
+  .thumb{
+    position:relative;overflow:hidden;isolation:isolate;
+    aspect-ratio:16/10;border-radius:14px;
+    background:linear-gradient(135deg,var(--a),var(--b));
+  }
+  .thumb::before{
+    content:'';position:absolute;right:-12%;bottom:-28%;
+    width:62%;aspect-ratio:1;border-radius:50%;
+    border:1px solid rgba(255,255,255,.35);
+  }
+  .thumb::after{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 28% 22%,rgba(255,255,255,.5),transparent 58%);
+    mix-blend-mode:soft-light;
+  }
+  .thumb .mono{
+    position:absolute;right:6%;bottom:-16%;z-index:1;
+    font-size:clamp(4rem,11vw,7rem);font-weight:800;line-height:1;
+    color:rgba(255,255,255,.3);letter-spacing:-.06em;
+    user-select:none;
+  }
+
+  .work-body{padding:18px 8px 8px}
+  .work-body h3{font-size:1.1rem;font-weight:700}
+  .work-body p{color:var(--muted);font-size:.9rem;margin-top:2px}
+
+  /* ---------- 联系 ---------- */
+  #contact{padding-bottom:110px}
+  .cta-box{
+    position:relative;overflow:hidden;
+    padding:clamp(46px,7vw,80px) 24px;
+    border:1px solid var(--border);border-radius:28px;
+    text-align:center;
+    background:
+      radial-gradient(120% 140% at 50% -20%,rgba(109,94,252,.35),transparent 62%),
+      radial-gradient(100% 130% at 92% 112%,rgba(34,211,238,.2),transparent 58%),
+      var(--surface);
+  }
+  .cta-box h2{
+    font-size:clamp(1.6rem,4vw,2.4rem);
+    letter-spacing:-.02em;line-height:1.2;font-weight:800;
+  }
+  .cta-box p{color:var(--muted);margin:16px auto 34px;max-width:460px}
+
+  /* ---------- 页脚 ---------- */
+  footer{padding:40px 0;border-top:1px solid var(--border)}
+  .foot{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;flex-wrap:wrap;
+    font-size:.88rem;color:var(--muted);
+  }
+
+  /* ---------- 滚动出场 ---------- */
+  .js .reveal{
+    opacity:0;transform:translateY(26px);
+    transition:opacity .75s var(--ease),transform .75s var(--ease);
+  }
+  .js .reveal.in{opacity:1;transform:none}
+
+  /* ---------- 响应式 ---------- */
+  @media (max-width:860px){
+    .works{grid-template-columns:1fr}
+    nav.links{display:none}
+    section{padding:70px 0}
+  }
+  @media (max-width:520px){
+    .hero{padding-top:130px}
+    .grid-4{grid-template-columns:repeat(2,1fr);gap:12px}
+    .stat{padding:22px 10px}
+    .btn{padding:12px 22px}
+  }
+
+  /* ---------- 无障碍：减少动效 ---------- */
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation-duration:.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+    }
+    html{scroll-behavior:auto}
+    .js .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true">
+  <span class="blob b1"></span>
+  <span class="blob b2"></span>
+  <span class="blob b3"></span>
+</div>
+
+<header id="top">
+  <div class="wrap nav">
+    <a href="#top" class="logo"><span class="dot"></span>LUMEN</a>
+    <nav class="links">
+      <a href="#services">服务</a>
+      <a href="#work">作品</a>
+      <a href="#contact">联系</a>
+    </nav>
+    <a href="#contact" class="btn btn-primary btn-sm">开始合作</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <span class="pill reveal">✦ 全新 2.0 版本已上线</span>
+      <h1 class="reveal">把想法,<br>变成会<span class="grad">发光</span>的作品</h1>
+      <p class="lead reveal">
+        LUMEN 是一支专注于品牌视觉、网站与交互体验的小型创意团队。
+        我们相信好的设计不只是好看,而是让人一眼记住。
+      </p>
+      <div class="cta-row reveal">
+        <a href="#contact" class="btn btn-primary">开始合作 →</a>
+        <a href="#work" class="btn btn-ghost">看看作品</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 数据 -->
+  <section class="stats">
+    <div class="wrap">
+      <div class="grid grid-4">
+        <div class="stat reveal">
+          <div class="num" data-count="120" data-suffix="+">120+</div>
+          <div class="label">交付项目</div>
+        </div>
+        <div class="stat reveal">
+          <div class="num" data-count="8" data-suffix=" 年">8 年</div>
+          <div class="label">行业经验</div>
+        </div>
+        <div class="stat reveal">
+          <div class="num" data-count="46" data-suffix="+">46+</div>
+          <div class="label">合作品牌</div>
+        </div>
+        <div class="stat reveal">
+          <div class="num" data-count="99" data-suffix="%">99%</div>
+          <div class="label">客户满意度</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 服务 -->
+  <section id="services">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Services</span>
+        <h2>我们能做什么</h2>
+        <p>从零到一,或者从一到一百。</p>
+      </div>
+
+      <div class="grid grid-3">
+        <article class="card reveal">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2.5 21.5 12 12 21.5 2.5 12z"/>
+              <path d="M12 7.5 16.5 12 12 16.5 7.5 12z"/>
+            </svg>
+          </div>
+          <h3>品牌设计</h3>
+          <p>从命名、标志到整套视觉规范,帮品牌找到属于自己的声音和样子。</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8.5 6.5 3 12l5.5 5.5"/>
+              <path d="M15.5 6.5 21 12l-5.5 5.5"/>
+            </svg>
+          </div>
+          <h3>网站开发</h3>
+          <p>响应式、高性能、易维护的前端实现,让设计稿在浏览器里原样落地。</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12h3l2.2-6.5L11 18l2.8-9L15.5 12H21"/>
+            </svg>
+          </div>
+          <h3>动效与交互</h3>
+          <p>恰到好处的过渡与微交互,让每一次点击都有回馈,让页面会呼吸。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 作品 -->
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Selected Work</span>
+        <h2>最近的一些作品</h2>
+        <p>每一个项目,都是一次从混乱到秩序的整理。</p>
+      </div>
+
+      <div class="works">
+        <a href="#work" class="work reveal">
+          <div class="thumb" style="--a:#6d5efc;--b:#22d3ee">
+            <span class="mono">N</span>
+          </div>
+          <div class="work-body">
+            <h3>Nova 音频</h3>
+            <p>品牌重塑 · 官网设计</p>
+          </div>
+        </a>
+
+        <a href="#work" class="work reveal">
+          <div class="thumb" style="--a:#f59e0b;--b:#f472b6">
+            <span class="mono">拾</span>
+          </div>
+          <div class="work-body">
+            <h3>拾光咖啡</h3>
+            <p>包装设计 · 空间视觉</p>
+          </div>
+        </a>
+
+        <a href="#work" class="work reveal">
+          <div class="thumb" style="--a:#06b6d4;--b:#34d399">
+            <span class="mono">A</span>
+          </div>
+          <div class="work-body">
+            <h3>Atlas 数据平台</h3>
+            <p>产品界面 · 设计系统</p>
+          </div>
+        </a>
+
+        <a href="#work" class="work reveal">
+          <div class="thumb" style="--a:#a3e635;--b:#14b8a6">
+            <span class="mono">山</span>
+          </div>
+          <div class="work-body">
+            <h3>山野民宿</h3>
+            <p>品牌全案 · 摄影指导</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系 -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="cta-box reveal">
+        <h2>有想法?聊聊吧。</h2>
+        <p>无论是一个完整的项目,还是一个小小的疑问,都欢迎随时来信。</p>
+        <a href="mailto:hello@lumen.studio" class="btn btn-primary">hello@lumen.studio</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a href="#top" class="logo"><span class="dot"></span>LUMEN</a>
+    <p>© 2026 LUMEN Studio · 用热爱做设计</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* 滚动时给导航加毛玻璃背景 */
+  var header = document.querySelector('header');
+  var onScroll = function () {
+    header.classList.toggle('scrolled', window.scrollY > 24);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  var supportsIO = 'IntersectionObserver' in window;
+
+  /* 元素滚动出场 */
+  var revealEls = document.querySelectorAll('.reveal');
+  if (supportsIO) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    revealEls.forEach(function (el, i) {
+      el.style.transitionDelay = (i % 4) * 60 + 'ms';
+      io.observe(el);
+    });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* 数字滚动动画 */
+  var counters = document.querySelectorAll('[data-count]');
+
+  function runCounter(el) {
+    var target = parseFloat(el.dataset.count);
+    var suffix = el.dataset.suffix || '';
+    var duration = 1500;
+    var start = performance.now();
+
+    function step(now) {
+      var p = Math.min((now - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  if (supportsIO) {
+    var co = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          runCounter(entry.target);
+          co.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+
+    counters.forEach(function (el) { co.observe(el); });
+  } else {
+    counters.forEach(function (el) {
+      el.textContent = el.dataset.count + (el.dataset.suffix || '');
+    });
+  }
+})();
+</script>
+</body>
+</html>
