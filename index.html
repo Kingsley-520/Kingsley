@@ -3,141 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kingsley</title>
-<link rel="icon" type="image/png" href="/Kingsley/Kingsley ti.png">
+<title>Kingsley </title>
 <meta name="description" content="Kingsley 的个人主页 —— 哈迷 / 时光代理人观众">
+<!-- 浏览器标签页图标 -->
+<link rel="icon" type="image/png" href="/Kingsley/Kingsley ti.png">
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
   :root{
-    --y50:#fffdf5;
-    --y100:#fff8e1;
-    --y200:#ffecb3;
-    --y300:#ffe082;
-    --y400:#ffd54f;
-    --y500:#ffc107;
-    --y600:#ffb300;
-    --y700:#ff8f00;
-    --gold:#b8860b;
-    --ink:#2e2618;
-    --ink-soft:#6f6349;
-    --line:rgba(184,148,42,.24);
-    --card:rgba(255,255,255,.72);
-    --shadow:0 20px 45px -26px rgba(176,134,11,.55);
-    --r:22px;
+    --bg:#06060a;
+    --bg-soft:#0b0b11;
+    --panel:rgba(255,255,255,.028);
+    --panel-2:rgba(255,255,255,.06);
+    --line:rgba(255,214,10,.14);
+    --line-strong:rgba(255,214,10,.44);
+    --accent:#ffd60a;
+    --accent-soft:#ffe873;
+    --accent-deep:#b38900;
+    --text:#f3f3f7;
+    --muted:#8b8b97;
+    --r:18px;
     --ease:cubic-bezier(.2,.7,.3,1);
+    --mono:"SF Mono","JetBrains Mono","Fira Code",Consolas,"Courier New",monospace;
   }
 
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 
   body{
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-    color:var(--ink);
+    color:var(--text);
     line-height:1.7;
     min-height:100vh;
     overflow-x:hidden;
     background:
-      radial-gradient(120% 75% at 50% -12%, #fff0b8 0%, rgba(255,240,184,0) 62%),
-      linear-gradient(180deg,#fffdf5 0%,#fff8e6 48%,#fffdf5 100%);
+      radial-gradient(120% 70% at 50% -10%, rgba(255,214,10,.14) 0%, transparent 62%),
+      radial-gradient(90% 55% at 88% 108%, rgba(255,214,10,.07) 0%, transparent 60%),
+      var(--bg);
     background-attachment:fixed;
     -webkit-font-smoothing:antialiased;
   }
 
-  /* 淡淡的点阵纹理 */
+  /* ===== 科技网格底纹 ===== */
   body::before{
     content:'';
     position:fixed;inset:0;z-index:0;pointer-events:none;
-    background-image:radial-gradient(rgba(190,150,20,.14) 1px, transparent 1px);
-    background-size:24px 24px;
-    -webkit-mask-image:radial-gradient(ellipse 85% 60% at 50% 0%, #000 8%, transparent 78%);
-    mask-image:radial-gradient(ellipse 85% 60% at 50% 0%, #000 8%, transparent 78%);
+    background-image:
+      linear-gradient(rgba(255,214,10,.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,214,10,.055) 1px, transparent 1px);
+    background-size:56px 56px;
+    -webkit-mask-image:radial-gradient(ellipse 82% 62% at 50% 0%, #000 4%, transparent 78%);
+    mask-image:radial-gradient(ellipse 82% 62% at 50% 0%, #000 4%, transparent 78%);
+  }
+
+  /* ===== 顶部扫描光带 ===== */
+  body::after{
+    content:'';
+    position:fixed;left:0;right:0;top:0;height:1px;z-index:40;pointer-events:none;
+    background:linear-gradient(90deg,transparent,rgba(255,214,10,.9),transparent);
+    opacity:.5;
+    animation:scan 6s ease-in-out infinite;
+  }
+  @keyframes scan{
+    0%,100%{transform:translateY(0);opacity:.28}
+    50%{transform:translateY(100vh);opacity:.75}
   }
 
   .page{position:relative;z-index:1}
 
   a{color:inherit;text-decoration:none}
-  ::selection{background:rgba(255,193,7,.45)}
+  ::selection{background:rgba(255,214,10,.35);color:#fff}
 
-  .wrap{width:min(940px,88vw);margin-inline:auto}
+  .wrap{width:min(960px,88vw);margin-inline:auto}
 
-  /* ============ 顶部 ============ */
+  /* ================= 顶部导航 ================= */
   header{
     position:sticky;top:0;z-index:30;
-    padding:18px 0;
-    background:rgba(255,253,245,.75);
-    -webkit-backdrop-filter:blur(14px) saturate(150%);
-    backdrop-filter:blur(14px) saturate(150%);
+    padding:16px 0;
+    background:rgba(6,6,10,.72);
+    -webkit-backdrop-filter:blur(16px) saturate(150%);
+    backdrop-filter:blur(16px) saturate(150%);
     border-bottom:1px solid transparent;
-    transition:border-color .3s var(--ease),padding .3s var(--ease);
+    transition:border-color .3s var(--ease),padding .3s var(--ease),background .3s var(--ease);
   }
-  header.scrolled{border-bottom-color:var(--line);padding:12px 0}
+  header.scrolled{
+    padding:11px 0;
+    border-bottom-color:var(--line);
+    background:rgba(6,6,10,.88);
+  }
 
   .nav{display:flex;align-items:center;justify-content:space-between;gap:18px}
+
   .brand{
-    display:inline-flex;align-items:center;gap:9px;
-    font-weight:800;letter-spacing:.16em;font-size:.9rem;
+    display:inline-flex;align-items:center;gap:11px;
+    font-family:var(--mono);
+    font-weight:700;letter-spacing:.2em;font-size:.88rem;
   }
-  .brand i{
-    width:9px;height:9px;border-radius:50%;
-    background:linear-gradient(140deg,var(--y400),var(--y600));
-    box-shadow:0 0 0 4px rgba(255,193,7,.22);
+
+  /* 导航栏图标：/Kingsley/Kingsley ti.png */
+  .brand-logo{
+    width:26px;height:26px;
+    object-fit:contain;
+    display:block;
+    flex:none;
+    filter:drop-shadow(0 0 6px rgba(255,214,10,.55));
   }
-  .nav a.mail{
-    font-size:.86rem;font-weight:600;color:var(--ink-soft);
-    padding:8px 16px;border-radius:999px;
+
+  .nav .mail{
+    font-family:var(--mono);
+    font-size:.8rem;font-weight:600;letter-spacing:.06em;
+    color:var(--muted);
+    padding:8px 17px;border-radius:999px;
     border:1px solid var(--line);
-    background:rgba(255,255,255,.6);
+    background:rgba(255,214,10,.05);
     transition:all .25s var(--ease);
   }
-  .nav a.mail:hover{color:var(--ink);border-color:var(--y500);background:#fff;transform:translateY(-1px)}
+  .nav .mail:hover{
+    color:var(--accent);
+    border-color:var(--line-strong);
+    background:rgba(255,214,10,.12);
+    box-shadow:0 0 20px -6px rgba(255,214,10,.6);
+  }
 
-  /* ============ 通用 ============ */
-  section{padding:64px 0}
+  /* ================= 通用 ================= */
+  section{padding:62px 0}
 
   .card{
-    background:var(--card);
+    position:relative;
+    background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.012));
     border:1px solid var(--line);
     border-radius:var(--r);
     -webkit-backdrop-filter:blur(12px);
     backdrop-filter:blur(12px);
-    box-shadow:var(--shadow);
   }
+
+  /* 卡片四角 HUD 括线 */
+  .card::before,.card::after{
+    content:'';position:absolute;width:15px;height:15px;
+    border-style:solid;border-color:var(--line-strong);
+    opacity:.85;pointer-events:none;
+    transition:border-color .35s var(--ease),opacity .35s var(--ease);
+  }
+  .card::before{top:-1px;left:-1px;border-width:1.5px 0 0 1.5px;border-radius:var(--r) 0 0 0}
+  .card::after{bottom:-1px;right:-1px;border-width:0 1.5px 1.5px 0;border-radius:0 0 var(--r) 0}
 
   .sec-title{
-    font-size:.76rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
-    color:var(--gold);margin-bottom:22px;text-align:center;
+    font-family:var(--mono);
+    font-size:.74rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:24px;text-align:center;
+    opacity:.9;
   }
 
-  /* ============ Hero ============ */
-  .hero{padding:56px 0 40px;text-align:center;position:relative}
+  /* ================= Hero ================= */
+  .hero{
+    padding:58px 0 44px;
+    text-align:center;
+    position:relative;
+  }
 
+  /* 漂浮光点 */
   .sparkle{
-    position:absolute;border-radius:50%;background:var(--y400);
-    box-shadow:0 0 14px 2px rgba(255,193,7,.75);
+    position:absolute;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 12px 2px rgba(255,214,10,.8);
     pointer-events:none;
   }
-  .s1{width:7px;height:7px;top:14%;left:12%;animation:float 7s ease-in-out infinite}
-  .s2{width:5px;height:5px;top:30%;right:14%;animation:float 9s ease-in-out infinite .8s}
-  .s3{width:9px;height:9px;top:8%;right:30%;opacity:.7;animation:float 11s ease-in-out infinite 1.6s}
+  .s1{width:6px;height:6px;top:14%;left:11%;animation:float 7s ease-in-out infinite}
+  .s2{width:4px;height:4px;top:32%;right:13%;animation:float 9s ease-in-out infinite .8s}
+  .s3{width:8px;height:8px;top:8%;right:29%;opacity:.65;animation:float 11s ease-in-out infinite 1.6s}
   @keyframes float{
     0%,100%{transform:translateY(0) scale(1);opacity:.85}
-    50%{transform:translateY(-18px) scale(1.25);opacity:.35}
+    50%{transform:translateY(-20px) scale(1.3);opacity:.3}
   }
 
-  /* 头像 —— 图片名固定为 kingsley.png */
+  /* ---- 头像：/Kingsley/kingsley.png ---- */
   .avatar{
     position:relative;
-    width:clamp(136px,28vw,172px);
+    width:clamp(132px,26vw,166px);
     aspect-ratio:1;
-    margin:0 auto 26px;
-    padding:6px;
+    margin:0 auto 30px;
     border-radius:50%;
-    background:linear-gradient(140deg,#ffe9a8,#ffc107 45%,#ff8f00 70%,#ffe9a8);
-    box-shadow:0 22px 48px -22px rgba(190,140,0,.75);
     animation:rise .9s var(--ease) both;
     transition:transform .45s var(--ease);
   }
-  .avatar:hover{transform:translateY(-4px) scale(1.03)}
+  .avatar:hover{transform:translateY(-4px) scale(1.02)}
+
+  /* 外圈虚线环 */
+  .avatar::before{
+    content:'';
+    position:absolute;inset:-20px;border-radius:50%;
+    border:1px dashed rgba(255,214,10,.28);
+    animation:spin 26s linear infinite;
+  }
+
+  /* 旋转高光弧 */
+  .avatar::after{
+    content:'';
+    position:absolute;inset:-9px;border-radius:50%;
+    background:conic-gradient(from 0deg, transparent 0 62%, var(--accent) 76%, transparent 88% 100%);
+    -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+    mask:radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+    animation:spin 5s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
 
   .avatar-inner{
     position:relative;
@@ -145,211 +213,286 @@
     border-radius:50%;
     overflow:hidden;
     display:grid;place-items:center;
-    background:linear-gradient(140deg,#fff3c4,#ffd54f);
-    border:3px solid #fffdf5;
+    background:linear-gradient(150deg,#1a1608,#0a0a0f);
+    border:2px solid rgba(255,214,10,.4);
+    box-shadow:
+      0 0 0 6px rgba(255,214,10,.06),
+      0 0 42px -8px rgba(255,214,10,.55),
+      inset 0 0 30px rgba(255,214,10,.12);
   }
-  /* 头像图片：加载失败会自动隐藏，露出下面的 K 字占位 */
   .avatar img{
     position:absolute;inset:0;z-index:2;
     width:100%;height:100%;object-fit:cover;
   }
   .avatar-fallback{
     z-index:1;
-    font-size:clamp(3rem,7.5vw,4.2rem);
-    font-weight:800;letter-spacing:-.03em;
-    color:#a8760a;
+    font-size:clamp(2.8rem,7vw,3.8rem);
+    font-weight:800;
+    color:var(--accent);
+    opacity:.75;
   }
 
+  /* ---- 名字 ---- */
   .name{
-    font-size:clamp(2.5rem,7.5vw,4.1rem);
+    font-size:clamp(2.4rem,7.2vw,4rem);
     font-weight:800;
     line-height:1.1;
     letter-spacing:-.02em;
-    background:linear-gradient(100deg,#a8760a,#ffc107,#ff9800,#a8760a);
+    background:linear-gradient(100deg,#fff8d6,#ffd60a,#ffb300,#fff8d6);
     background-size:220% 100%;
     -webkit-background-clip:text;background-clip:text;color:transparent;
-    animation:shine 9s linear infinite, rise .9s var(--ease) .08s both;
+    animation:shine 8s linear infinite, rise .9s var(--ease) .08s both;
+    filter:drop-shadow(0 0 26px rgba(255,214,10,.32));
   }
   @keyframes shine{to{background-position:220% 0}}
   @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 
   .tagline{
     margin-top:16px;
-    font-size:clamp(.98rem,2.1vw,1.1rem);
-    color:var(--ink-soft);
+    font-size:clamp(.97rem,2.1vw,1.08rem);
+    color:var(--muted);
     animation:rise .9s var(--ease) .16s both;
   }
 
+  /* ---- 状态条 ---- */
+  .status{
+    display:inline-flex;align-items:center;gap:10px;
+    margin-top:22px;
+    padding:7px 16px;border-radius:999px;
+    font-family:var(--mono);
+    font-size:.74rem;letter-spacing:.12em;
+    color:var(--accent);
+    background:rgba(255,214,10,.06);
+    border:1px solid var(--line);
+    animation:rise .9s var(--ease) .2s both;
+  }
+  .status .led{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 8px 1px rgba(255,214,10,.9);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{50%{opacity:.25;transform:scale(.75)}}
+
+  /* ---- 标签 ---- */
   .chips{
     display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
     margin-top:26px;
-    animation:rise .9s var(--ease) .24s both;
+    animation:rise .9s var(--ease) .26s both;
   }
   .chip{
     display:inline-flex;align-items:center;gap:7px;
     padding:8px 17px;border-radius:999px;
-    font-size:.87rem;font-weight:600;
-    background:rgba(255,255,255,.78);
+    font-size:.86rem;font-weight:600;
+    background:rgba(255,255,255,.045);
     border:1px solid var(--line);
-    box-shadow:0 6px 16px -12px rgba(180,140,20,.9);
-    transition:transform .25s var(--ease),border-color .25s var(--ease),background .25s var(--ease);
+    color:#dcdce6;
+    transition:transform .25s var(--ease),border-color .25s var(--ease),
+               background .25s var(--ease),color .25s var(--ease);
   }
-  .chip:hover{transform:translateY(-2px);border-color:var(--y500);background:#fff}
+  .chip:hover{
+    transform:translateY(-2px);
+    border-color:var(--line-strong);
+    background:rgba(255,214,10,.1);
+    color:var(--accent);
+  }
 
   .hero-actions{
     display:flex;gap:13px;justify-content:center;flex-wrap:wrap;
     margin-top:34px;
-    animation:rise .9s var(--ease) .32s both;
+    animation:rise .9s var(--ease) .34s both;
   }
 
   .btn{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:13px 27px;border-radius:999px;
-    font-size:.94rem;font-weight:700;
+    display:inline-flex;align-items:center;gap:9px;
+    padding:13px 28px;border-radius:999px;
+    font-size:.93rem;font-weight:700;
     border:1px solid transparent;cursor:pointer;
     transition:transform .26s var(--ease),box-shadow .26s var(--ease),
-               background .26s var(--ease),border-color .26s var(--ease);
+               background .26s var(--ease),border-color .26s var(--ease),color .26s var(--ease);
   }
   .btn-primary{
-    background:linear-gradient(120deg,#ffd54f,#ffb300);
-    color:#3a2c05;
-    box-shadow:0 14px 30px -16px rgba(200,150,0,.95);
+    background:linear-gradient(120deg,#ffd60a,#ffb300);
+    color:#1a1400;
+    box-shadow:0 12px 32px -14px rgba(255,214,10,.9);
   }
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 20px 38px -16px rgba(200,150,0,1)}
+  .btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 18px 40px -14px rgba(255,214,10,1);
+  }
   .btn-ghost{
-    background:rgba(255,255,255,.7);
+    background:rgba(255,255,255,.04);
     border-color:var(--line);
-    color:var(--ink);
+    color:var(--text);
   }
-  .btn-ghost:hover{background:#fff;border-color:var(--y500);transform:translateY(-2px)}
+  .btn-ghost:hover{
+    background:rgba(255,214,10,.1);
+    border-color:var(--line-strong);
+    color:var(--accent);
+    transform:translateY(-2px);
+  }
 
-  /* ============ 兴趣 ============ */
-  .hobbies{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+  /* ================= 兴趣 ================= */
+  .hobbies{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px}
 
   .hobby{
-    position:relative;overflow:hidden;
+    overflow:hidden;
     padding:32px 30px;
-    transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);
+    transition:transform .4s var(--ease),border-color .4s var(--ease),box-shadow .4s var(--ease);
   }
-  .hobby::before{
-    content:'';position:absolute;top:0;left:0;right:0;height:3px;
-    transform:scaleX(0);transform-origin:left;
-    transition:transform .5s var(--ease);
+  .hobby::before,.hobby::after{transition:border-color .4s var(--ease)}
+  .hobby:hover{
+    transform:translateY(-6px);
+    border-color:var(--line-strong);
+    box-shadow:0 24px 50px -28px rgba(255,214,10,.75), 0 0 0 1px rgba(255,214,10,.16);
   }
-  .hobby:hover{transform:translateY(-6px);border-color:rgba(255,179,0,.55)}
-  .hobby:hover::before{transform:scaleX(1)}
+  .hobby:hover::before,.hobby:hover::after{border-color:var(--accent)}
 
-  .hobby.hp::before{background:linear-gradient(90deg,#7f1d1d,#d4af37,#7f1d1d)}
-  .hobby.lc::before{background:linear-gradient(90deg,#0ea5e9,#22d3ee,#6366f1)}
+  /* 顶部渐变线 */
+  .hobby-line{
+    position:absolute;top:0;left:0;right:0;height:2px;
+    transform:scaleX(0);transform-origin:left;
+    transition:transform .55s var(--ease);
+  }
+  .hobby:hover .hobby-line{transform:scaleX(1)}
+  .hobby.hp .hobby-line{background:linear-gradient(90deg,#7f1d1d,#ffd60a,#7f1d1d)}
+  .hobby.lc .hobby-line{background:linear-gradient(90deg,#0ea5e9,#ffd60a,#6366f1)}
 
   .hobby-icon{
-    width:52px;height:52px;border-radius:16px;
+    width:52px;height:52px;border-radius:15px;
     display:grid;place-items:center;
     margin-bottom:20px;
-    font-size:1.5rem;
-  }
-  .hobby.hp .hobby-icon{
-    background:linear-gradient(140deg,rgba(127,29,29,.14),rgba(212,175,55,.3));
-    color:#8a6d1b;
+    font-size:1.45rem;
+    border:1px solid var(--line);
+    background:linear-gradient(150deg,rgba(255,214,10,.16),rgba(255,214,10,.04));
   }
   .hobby.lc .hobby-icon{
-    background:linear-gradient(140deg,rgba(14,165,233,.16),rgba(99,102,241,.16));
-    color:#0e7490;
+    background:linear-gradient(150deg,rgba(14,165,233,.18),rgba(99,102,241,.08));
   }
-  .hobby h3{font-size:1.2rem;font-weight:800;margin-bottom:6px;letter-spacing:-.01em}
-  .hobby .sub{
-    font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--gold);margin-bottom:12px;
-  }
-  .hobby.lc .sub{color:#0e7490}
-  .hobby p{color:var(--ink-soft);font-size:.94rem}
 
-  /* ============ 联系方式 ============ */
-  .contacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  .hobby h3{font-size:1.2rem;font-weight:800;margin-bottom:5px;letter-spacing:-.01em}
+  .hobby .sub{
+    font-family:var(--mono);
+    font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:13px;
+  }
+  .hobby.lc .sub{color:#5eead4}
+  .hobby p{color:var(--muted);font-size:.94rem}
+
+  /* ================= 联系方式 ================= */
+  .contacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:18px}
 
   .contact-item{
     display:flex;align-items:center;gap:18px;
     padding:24px 26px;
     transition:transform .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);
   }
-  .contact-item:hover{transform:translateY(-4px);border-color:var(--y500)}
+  .contact-item:hover{
+    transform:translateY(-4px);
+    border-color:var(--line-strong);
+    box-shadow:0 20px 44px -26px rgba(255,214,10,.8);
+  }
+  .contact-item:hover::before,.contact-item:hover::after{border-color:var(--accent)}
 
   .ci-icon{
     flex:none;
-    width:50px;height:50px;border-radius:15px;
+    width:50px;height:50px;border-radius:14px;
     display:grid;place-items:center;
-    background:linear-gradient(140deg,#fff3c4,#ffd54f);
-    border:1px solid rgba(255,179,0,.4);
-    color:#a8760a;
+    background:linear-gradient(150deg,rgba(255,214,10,.18),rgba(255,214,10,.05));
+    border:1px solid var(--line);
+    color:var(--accent);
+    transition:box-shadow .35s var(--ease);
   }
+  .contact-item:hover .ci-icon{box-shadow:0 0 22px -4px rgba(255,214,10,.7)}
   .ci-icon svg{width:23px;height:23px}
 
   .ci-body{min-width:0}
   .ci-label{
-    font-size:.74rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
-    color:var(--gold);margin-bottom:3px;
+    font-family:var(--mono);
+    font-size:.7rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:3px;
   }
   .ci-value{
     font-size:1rem;font-weight:700;
     word-break:break-all;
     transition:color .25s var(--ease);
   }
-  a.ci-value:hover{color:var(--y700)}
+  a.ci-value:hover{color:var(--accent)}
 
-  /* QQ 占位 —— 拿到号码后直接替换文字即可 */
+  /* QQ 占位框 —— 拿到号码后直接替换文字 */
   .ci-value.is-empty{
     display:inline-block;
     padding:3px 14px;
-    border-radius:999px;
-    font-size:.88rem;font-weight:600;
-    color:#a08b5c;
-    border:1px dashed rgba(184,148,42,.6);
-    background:rgba(255,248,225,.7);
+    border-radius:8px;
+    font-family:var(--mono);
+    font-size:.84rem;font-weight:600;
+    color:var(--accent);
+    border:1px dashed rgba(255,214,10,.5);
+    background:rgba(255,214,10,.07);
   }
 
   .contact-note{
-    margin-top:22px;text-align:center;
-    font-size:.86rem;color:var(--ink-soft);
+    margin-top:24px;text-align:center;
+    font-size:.86rem;color:var(--muted);
   }
 
-  /* ============ 页脚 ============ */
+  /* ================= 页脚 ================= */
   footer{
-    padding:38px 0 46px;
+    padding:38px 0 48px;
     border-top:1px solid var(--line);
     text-align:center;
-    font-size:.86rem;
-    color:var(--ink-soft);
+    font-size:.84rem;
+    color:var(--muted);
   }
-  footer .brand{justify-content:center;margin-bottom:10px;color:var(--ink)}
+  footer .brand{
+    justify-content:center;
+    margin-bottom:10px;
+    color:var(--text);
+  }
+  footer .brand-logo{width:22px;height:22px}
 
-  /* ============ 出场动画 ============ */
-  .js .reveal{opacity:0;transform:translateY(24px);
-    transition:opacity .75s var(--ease),transform .75s var(--ease)}
+  /* ================= 出场动画 ================= */
+  .js .reveal{
+    opacity:0;transform:translateY(24px);
+    transition:opacity .75s var(--ease),transform .75s var(--ease);
+  }
   .js .reveal.in{opacity:1;transform:none}
 
+  /* ================= 响应式 ================= */
   @media (max-width:600px){
-    section{padding:48px 0}
-    .hero{padding:36px 0 26px}
+    section{padding:46px 0}
+    .hero{padding:38px 0 28px}
     .hobby{padding:26px 22px}
     .contact-item{padding:20px 20px;gap:14px}
-    .ci-icon{width:44px;height:44px;border-radius:13px}
+    .ci-icon{width:44px;height:44px;border-radius:12px}
+    .avatar::before{inset:-15px}
+    .avatar::after{inset:-7px}
   }
 
+  /* ================= 无障碍 ================= */
   @media (prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
-      transition-duration:.01ms !important}
+    *,*::before,*::after{
+      animation-duration:.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+    }
     html{scroll-behavior:auto}
     .js .reveal{opacity:1;transform:none}
+    body::after{display:none}
   }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- ================= 顶部 ================= -->
+  <!-- ================= 顶部导航 ================= -->
   <header id="top">
     <div class="wrap nav">
-      <a href="#top" class="brand"><i></i>KINGSLEY</a>
+      <a href="#top" class="brand">
+        <!-- 导航栏图标 -->
+        <img src="/Kingsley/Kingsley ti.png" alt="Kingsley" class="brand-logo">
+        KINGSLEY
+      </a>
       <a class="mail" href="mailto:19058021157@163.com">写信给我</a>
     </div>
   </header>
@@ -364,7 +507,7 @@
 
       <div class="wrap">
 
-        <!-- 头像：图片名固定为 kingsley.png，请把图片放到与本文件同一目录 -->
+        <!-- 头像 -->
         <div class="avatar">
           <div class="avatar-inner">
             <span class="avatar-fallback" aria-hidden="true">K</span>
@@ -376,6 +519,11 @@
         <h1 class="name">Kingsley</h1>
 
         <p class="tagline">在麻瓜世界生活，偶尔穿越时间线。</p>
+
+        <div class="status">
+          <span class="led" aria-hidden="true"></span>
+          STATUS: ONLINE
+        </div>
 
         <div class="chips">
           <span class="chip">⚡ 哈利波特</span>
@@ -394,11 +542,12 @@
     <!-- ================= 兴趣 ================= -->
     <section id="hobbies">
       <div class="wrap">
-        <p class="sec-title reveal">Things I Love</p>
+        <p class="sec-title reveal">// Things I Love</p>
 
         <div class="hobbies">
 
           <article class="card hobby hp reveal">
+            <span class="hobby-line" aria-hidden="true"></span>
             <div class="hobby-icon" aria-hidden="true">⚡</div>
             <h3>哈利波特</h3>
             <p class="sub">Harry Potter</p>
@@ -409,6 +558,7 @@
           </article>
 
           <article class="card hobby lc reveal">
+            <span class="hobby-line" aria-hidden="true"></span>
             <div class="hobby-icon" aria-hidden="true">⏳</div>
             <h3>时光代理人</h3>
             <p class="sub">Link Click</p>
@@ -425,7 +575,7 @@
     <!-- ================= 联系方式 ================= -->
     <section id="contact">
       <div class="wrap">
-        <p class="sec-title reveal">Get In Touch</p>
+        <p class="sec-title reveal">// Get In Touch</p>
 
         <div class="contacts">
 
@@ -444,7 +594,7 @@
             </span>
           </a>
 
-          <!-- QQ：把下面的占位文字换成你的 QQ 号即可 -->
+          <!-- QQ：把占位文字换成你的 QQ 号即可 -->
           <div class="card contact-item reveal">
             <span class="ci-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -457,9 +607,9 @@
             </span>
             <span class="ci-body">
               <span class="ci-label">QQ</span>
-              <!-- ↓↓↓ 这里替换成你的 QQ 号 ↓↓↓ -->
+              <!-- ↓↓↓ 替换成你的 QQ 号 ↓↓↓ -->
               <span class="ci-value is-empty" id="qq-number">待填写</span>
-              <!-- ↑↑↑ 这里替换成你的 QQ 号 ↑↑↑ -->
+              <!-- ↑↑↑ 替换成你的 QQ 号 ↑↑↑ -->
             </span>
           </div>
 
@@ -476,7 +626,10 @@
   <!-- ================= 页脚 ================= -->
   <footer>
     <div class="wrap">
-      <a href="#top" class="brand"><i></i>KINGSLEY</a>
+      <a href="#top" class="brand">
+        <img src="/Kingsley/Kingsley ti.png" alt="Kingsley" class="brand-logo">
+        KINGSLEY
+      </a>
       <p>© 2026 Kingsley · 保持好奇</p>
     </div>
   </footer>
@@ -487,7 +640,7 @@
 (function () {
   'use strict';
 
-  /* 滚动时给顶部加分隔线 */
+  /* 滚动时导航栏加分隔线 */
   var header = document.querySelector('header');
   function onScroll() {
     header.classList.toggle('scrolled', window.scrollY > 16);
